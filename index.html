@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thai Diary - จัดทริปเที่ยวไทย</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --blue: #0056b3; --orange: #ff9800; --bg: #f5f7fa; }
+        body { font-family: 'Kanit', sans-serif; margin: 0; background: var(--bg); color: #333; }
+        
+        /* Navbar ตามรูป */
+        nav { display: flex; justify-content: space-between; padding: 15px 10%; background: white; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .logo { font-size: 22px; font-weight: bold; color: var(--blue); letter-spacing: 1px; }
+        .logo span { color: var(--orange); }
+        nav ul { list-style: none; display: flex; gap: 20px; margin: 0; padding: 0; }
+        nav ul li { font-size: 14px; cursor: pointer; color: #555; }
+        .btn-login { background: var(--blue); color: white; border: none; padding: 8px 20px; border-radius: 20px; cursor: pointer; }
+
+        /* Hero Section ตามรูป */
+        .hero { 
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=1400');
+            height: 400px; background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; color: white;
+        }
+        .hero h1 { font-size: 32px; margin-bottom: 5px; }
+        .search-box { background: white; padding: 5px; border-radius: 30px; display: flex; width: 450px; margin-top: 20px; }
+        .search-box input { border: none; flex: 1; padding: 10px 20px; border-radius: 30px; outline: none; }
+        .search-box button { background: var(--orange); color: white; border: none; padding: 10px 25px; border-radius: 30px; cursor: pointer; }
+
+        /* Region Selector ตามรูป */
+        .content-section { padding: 40px 10%; }
+        .region-container { display: flex; gap: 15px; margin-top: 20px; overflow-x: auto; padding-bottom: 10px; }
+        .region-card { 
+            background: white; padding: 12px 25px; border-radius: 12px; border: 1px solid #eee;
+            display: flex; align-items: center; gap: 10px; cursor: pointer; transition: 0.3s; white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03); font-size: 14px;
+        }
+        .region-card:hover, .region-card.active { border-color: var(--orange); background: #fffaf0; }
+
+        /* Layout Main */
+        .main-grid { display: grid; grid-template-columns: 2.5fr 1fr; gap: 30px; margin-top: 30px; }
+        .province-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 15px; }
+        .prov-item { background: white; padding: 10px; text-align: center; border-radius: 8px; border: 1px solid #eee; cursor: pointer; font-size: 13px; }
+        .prov-item:hover { background: var(--blue); color: white; }
+
+        /* Calendar Planner */
+        .planner-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: sticky; top: 100px; }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-top: 15px; }
+        .cal-day { aspect-ratio: 1; border: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 12px; border-radius: 5px; cursor: pointer; }
+        .cal-day:hover { background: #e3f2fd; }
+        .cal-day.active { background: var(--blue); color: white; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo">THAI<span>DIARY</span></div>
+    <ul>
+        <li>หน้าแรก</li>
+        <li>จัดทริป</li>
+        <li>บทความ</li>
+        <li>จองที่พัก</li>
+    </ul>
+    <button class="btn-login">เข้าสู่ระบบ</button>
+</nav>
+
+<header class="hero">
+    <h1>ค้นพบเสน่ห์เมืองไทย</h1>
+    <p>รวบรวมที่เที่ยวครบทุกจังหวัด จากเหนือจรดใต้</p>
+    <div class="search-box">
+        <input type="text" placeholder="ค้นหาจังหวัด หรือ ที่เที่ยว...">
+        <button>ค้นหา</button>
+    </div>
+</header>
+
+<div class="content-section">
+    <h3>เลือกเที่ยวตามภูมิภาค</h3>
+    <div class="region-container" id="regionNav">
+        <div class="region-card active" onclick="loadProvinces('ภาคเหนือ')">⛰️ ภาคเหนือ</div>
+        <div class="region-card" onclick="loadProvinces('ภาคกลาง')">🏙️ ภาคกลาง</div>
+        <div class="region-card" onclick="loadProvinces('ภาคอีสาน')">🌾 ภาคอีสาน</div>
+        <div class="region-card" onclick="loadProvinces('ภาคใต้')">🏝️ ภาคใต้</div>
+        <div class="region-card" onclick="loadProvinces('ตะวันออก')">☀️ ตะวันออก</div>
+    </div>
+
+    <div class="main-grid">
+        <div class="left-panel">
+            <h4 id="regionTitle">รายชื่อจังหวัด (ภาคเหนือ)</h4>
+            <div class="province-list" id="provinceGrid"></div>
+            
+            <h4 style="margin-top:40px;">สถานที่แนะนำ / คาเฟ่ / อุทยาน</h4>
+            <div id="placeList" style="color:#999;">กรุณาเลือกจังหวัดเพื่อดูสถานที่...</div>
+        </div>
+
+        <aside class="planner-card">
+            <h4 style="margin:0">📅 จัดตารางทริปรายวัน</h4>
+            <p style="font-size: 12px; color: #888;">กุมภาพันธ์ 2569</p>
+            <div class="cal-grid" id="calendar"></div>
+            <div id="tripDetails" style="margin-top:20px; font-size:14px;">
+                <strong>แผนวันที่ <span id="selDate">1</span>:</strong>
+                <ul id="items" style="padding-left:20px; color:#666;">
+                    <li>ยังไม่มีกิจกรรม</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+</div>
+
+<script>
+    const provinces = {
+        "ภาคเหนือ": ["เชียงใหม่", "เชียงราย", "น่าน", "พะเยา", "แพร่", "แม่ฮ่องสอน", "ลำปาง", "ลำพูน", "อุตรดิตถ์"],
+        "ภาคกลาง": ["กรุงเทพฯ", "กำแพงเพชร", "ชัยนาท", "นครปฐม", "นนทบุรี", "ปทุมธานี", "อยุธยา", "สมุทรปราการ"],
+        "ภาคอีสาน": ["ขอนแก่น", "นครราชสีมา", "บุรีรัมย์", "อุดรธานี", "อุบลราชธานี", "เลย", "หนองคาย"],
+        "ภาคใต้": ["ภูเก็ต", "กระบี่", "พังงา", "สุราษฎร์ธานี", "สงขลา", "นครศรีธรรมราช", "ตรัง"]
+    };
+
+    function loadProvinces(region) {
+        const grid = document.getElementById('provinceGrid');
+        const title = document.getElementById('regionTitle');
+        title.innerText = `รายชื่อจังหวัด (${region})`;
+        grid.innerHTML = '';
+        
+        (provinces[region] || []).forEach(p => {
+            const div = document.createElement('div');
+            div.className = 'prov-item';
+            div.innerText = p;
+            div.onclick = () => showPlaces(p);
+            grid.appendChild(div);
+        });
+    }
+
+    function showPlaces(prov) {
+        document.getElementById('placeList').innerHTML = `
+            <div style="background:white; padding:15px; border-radius:10px; margin-bottom:10px; border:1px solid #eee;">
+                <b>📍 อุทยานแห่งชาติใน ${prov}</b><br><small>คะแนนรีวิว ⭐⭐⭐⭐⭐</small>
+                <button onclick="addTrip('${prov}')" style="float:right; background:var(--orange); color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">+ ลงแผน</button>
+            </div>
+        `;
+    }
+
+    function addTrip(name) {
+        const list = document.getElementById('items');
+        if(list.innerText.includes("ยังไม่มี")) list.innerHTML = "";
+        list.innerHTML += `<li>✅ เที่ยว ${name}</li>`;
+    }
+
+    // สร้างปฏิทิน
+    const cal = document.getElementById('calendar');
+    for (let i = 1; i <= 28; i++) {
+        const day = document.createElement('div');
+        day.className = 'cal-day';
+        day.innerText = i;
+        day.onclick = () => {
+            document.querySelectorAll('.cal-day').forEach(d => d.classList.remove('active'));
+            day.classList.add('active');
+            document.getElementById('selDate').innerText = i;
+        };
+        cal.appendChild(day);
+    }
+
+    loadProvinces('ภาคเหนือ'); // เริ่มต้นที่ภาคเหนือ
+</script>
+
+</body>
+</html>
