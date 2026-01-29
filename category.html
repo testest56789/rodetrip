@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mega Categories - Roadtravel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --blue: #0056b3; --orange: #ff9800; --dark: #1a1a1a; --card-bg: rgba(255,255,255,0.05); }
+        body { font-family: 'Kanit', sans-serif; margin: 0; background: var(--dark); color: #fff; padding: 20px 5%; }
+        
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 { color: var(--orange); font-size: 36px; margin-bottom: 10px; }
+        .header p { color: #aaa; }
+
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; }
+        
+        /* Card Design - Glassmorphism */
+        .cat-card { background: var(--card-bg); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; transition: 0.3s; }
+        .cat-card:hover { transform: translateY(-5px); border-color: var(--orange); }
+        
+        .cat-header { background: rgba(255,152,0,0.2); color: var(--orange); padding: 15px 20px; font-size: 22px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        
+        .sub-cat { padding: 15px 20px; }
+        .sub-title { font-weight: 600; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; padding-bottom: 5px; display: flex; justify-content: space-between; align-items: center; }
+        .sub-title span { background: var(--orange); color: #fff; font-size: 10px; padding: 2px 8px; border-radius: 10px; }
+
+        .item-list { list-style: none; padding: 0; margin: 0; }
+        .item-list li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; display: flex; justify-content: space-between; color: #ccc; }
+        .item-list li:hover { color: #fff; }
+        
+        .rating { color: #fbc02d; font-size: 12px; }
+        
+        .scroll-box { max-height: 250px; overflow-y: auto; padding-right: 10px; }
+        .scroll-box::-webkit-scrollbar { width: 4px; }
+        .scroll-box::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+
+        .back-btn { display: inline-block; margin-bottom: 20px; color: #fff; text-decoration: none; font-size: 14px; transition: 0.3s; }
+        .back-btn:hover { color: var(--orange); }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="back-btn">← กลับไปหน้าวางแผนการเที่ยว</a>
+
+<div class="header">
+    <h1>Mega Directory 77 จังหวัด 🇹🇭</h1>
+    <p>รวมรายชื่อคาเฟ่ โรงแรม และที่เที่ยวยอดฮิตทั่วประเทศไทย</p>
+</div>
+
+<div class="grid-container" id="megaContent"></div>
+
+<script>
+    // ฐานข้อมูลสถานที่สำหรับหน้าหมวดหมู่
+    const megaDatabase = {
+        "เชียงใหม่": {
+            cafes: ["The Baristro", "Chom Cafe", "Early Owls", "Pluto", "Graph One Nimman", "Transit Number 8", "Mars.cnx", "Fleur Cafe"],
+            hotels: ["Raya Heritage", "The Inside House", "Onsen @ Moncham", "Veranda High Resort", "Cross Chiang Mai"],
+            travel: ["ดอยอินทนนท์", "วัดพระธาตุดอยสุเทพ", "ประตูท่าแพ", "ถนนคนเดินวัวลาย"]
+        },
+        "กรุงเทพมหานคร": {
+            cafes: ["Factory Coffee", "Nana Coffee Roasters", "After You", "Rolling Roasters", "Paga Microroastery"],
+            hotels: ["The Standard Bangkok", "Mandarin Oriental", "Siam Kempinski", "Capella Bangkok"],
+            travel: ["วัดพระแก้ว", "เยาวราช", "ตลาดน้อย", "ไอคอนสยาม"]
+        },
+        "ภูเก็ต": {
+            cafes: ["Ma Doo Bua", "Three Monkeys", "Torry's Ice Cream", "Aungku Phuket", "Phuketique"],
+            hotels: ["Sri Panwa", "Keemala", "The Slate Phuket", "InterContinental Phuket"],
+            travel: ["แหลมพรหมเทพ", "หาดป่าตอง", "ย่านเมืองเก่าภูเก็ต", "วัดฉลอง"]
+        },
+        "ชลบุรี": {
+            cafes: ["Red Temp Coffee", "Way Coffee House", "Cave Beach Club", "Papa Beach Pattaya"],
+            hotels: ["Mason Pattaya", "Hilton Pattaya", "Grande Centre Point Space"],
+            travel: ["เกาะล้าน", "สวนนงนุช", "ปราสาทสัจธรรม", "เขาสามมุข"]
+        }
+    };
+
+    function renderMega() {
+        const container = document.getElementById('megaContent');
+        for (const [province, data] of Object.entries(megaDatabase)) {
+            const card = document.createElement('div');
+            card.className = 'cat-card';
+            
+            card.innerHTML = `
+                <div class="cat-header">📍 ${province}</div>
+                <div class="sub-cat">
+                    <div class="sub-title">☕ คาเฟ่ <span>Hot</span></div>
+                    <div class="scroll-box">
+                        <ul class="item-list">
+                            ${data.cafes.map(name => `<li>${name} <span class="rating">⭐ 4.8</span></li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+                <div class="sub-cat">
+                    <div class="sub-title">🏨 โรงแรม <span>Lux</span></div>
+                    <div class="scroll-box">
+                        <ul class="item-list">
+                            ${data.hotels.map(name => `<li>${name} <span class="rating">⭐ 4.9</span></li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+                <div class="sub-cat">
+                    <div class="sub-title">🗺️ ที่เที่ยว <span>Best</span></div>
+                    <div class="scroll-box">
+                        <ul class="item-list">
+                            ${data.travel.map(name => `<li>${name} <span class="rating">⭐ 4.7</span></li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+            `;
+            container.appendChild(card);
+        }
+    }
+
+    renderMega();
+</script>
+
+</body>
+</html>
