@@ -3,75 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mega Categories - Roadtravel</title>
+    <title>หมวดหมู่ที่เที่ยว - Roadtravel</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root { --blue: #0056b3; --orange: #ff9800; --dark: #1a1a1a; --card-bg: rgba(255,255,255,0.05); }
-        body { font-family: 'Kanit', sans-serif; margin: 0; background: var(--dark); color: #fff; padding: 20px 5%; }
+        :root { 
+            --blue-main: #1338BE; 
+            --orange: #ff9800; 
+            --bg-body: #f8f9fa; 
+            --card-bg: #ffffff; 
+        }
+        body { font-family: 'Kanit', sans-serif; margin: 0; background: var(--bg-body); color: #333; padding: 20px 5%; }
         
-        .header { text-align: center; margin-bottom: 40px; }
-        .header h1 { color: var(--orange); font-size: 36px; margin-bottom: 10px; }
-        .header p { color: #aaa; }
+        .header { text-align: center; margin-bottom: 40px; padding: 40px 0; background: #fff; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .header h1 { color: var(--blue-main); font-size: 36px; margin-bottom: 10px; }
+        .header p { color: #666; }
 
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; }
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
         
-        /* Card Design - Glassmorphism */
-        .cat-card { background: var(--card-bg); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; transition: 0.3s; }
-        .cat-card:hover { transform: translateY(-5px); border-color: var(--orange); }
+        .cat-card { background: var(--card-bg); border-radius: 20px; border: 1px solid #eee; overflow: hidden; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+        .cat-card:hover { transform: translateY(-5px); border-color: var(--blue-main); box-shadow: 0 8px 25px rgba(19, 56, 190, 0.1); }
         
-        .cat-header { background: rgba(255,152,0,0.2); color: var(--orange); padding: 15px 20px; font-size: 22px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .cat-header { background: var(--blue-main); color: #fff; padding: 18px 25px; font-size: 22px; font-weight: 600; display: flex; justify-content: space-between; align-items: center; }
         
-        .sub-cat { padding: 15px 20px; }
-        .sub-title { font-weight: 600; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 12px; padding-bottom: 5px; display: flex; justify-content: space-between; align-items: center; }
+        .sub-cat { padding: 15px 25px; border-bottom: 1px solid #f9f9f9; }
+        .sub-title { font-weight: 600; color: var(--blue-main); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 16px; }
         .sub-title span { background: var(--orange); color: #fff; font-size: 10px; padding: 2px 8px; border-radius: 10px; }
 
         .item-list { list-style: none; padding: 0; margin: 0; }
-        .item-list li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; display: flex; justify-content: space-between; color: #ccc; }
-        .item-list li:hover { color: #fff; }
+        .item-list li { padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; display: flex; justify-content: space-between; color: #555; transition: 0.2s; }
+        .item-list li:hover { color: var(--blue-main); padding-left: 5px; }
         
-        .rating { color: #fbc02d; font-size: 12px; }
+        .rating { color: #fbc02d; font-size: 12px; font-weight: bold; }
         
-        .scroll-box { max-height: 250px; overflow-y: auto; padding-right: 10px; }
+        .scroll-box { max-height: 200px; overflow-y: auto; padding-right: 10px; }
         .scroll-box::-webkit-scrollbar { width: 4px; }
-        .scroll-box::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        .scroll-box::-webkit-scrollbar-thumb { background: #ddd; border-radius: 10px; }
 
-        .back-btn { display: inline-block; margin-bottom: 20px; color: #fff; text-decoration: none; font-size: 14px; transition: 0.3s; }
-        .back-btn:hover { color: var(--orange); }
+        .back-btn { display: inline-block; margin-bottom: 25px; color: var(--blue-main); text-decoration: none; font-size: 15px; font-weight: 600; border: 1px solid var(--blue-main); padding: 8px 20px; border-radius: 30px; transition: 0.3s; }
+        .back-btn:hover { background: var(--blue-main); color: #fff; }
     </style>
 </head>
 <body>
 
-<a href="index.html" class="back-btn">← กลับไปหน้าวางแผนการเที่ยว</a>
+<a href="index.html" class="back-btn">← กลับหน้าวางแผนการเที่ยว</a>
 
 <div class="header">
     <h1>Mega Directory 77 จังหวัด 🇹🇭</h1>
-    <p>รวมรายชื่อคาเฟ่ โรงแรม และที่เที่ยวยอดฮิตทั่วประเทศไทย</p>
+    <p>รวมรายชื่อคาเฟ่ โรงแรม และที่เที่ยวยอดฮิตทั่วประเทศไทยในสไตล์คุณ</p>
 </div>
 
 <div class="grid-container" id="megaContent"></div>
 
 <script>
-    // ฐานข้อมูลสถานที่สำหรับหน้าหมวดหมู่
     const megaDatabase = {
         "เชียงใหม่": {
-            cafes: ["The Baristro", "Chom Cafe", "Early Owls", "Pluto", "Graph One Nimman", "Transit Number 8", "Mars.cnx", "Fleur Cafe"],
-            hotels: ["Raya Heritage", "The Inside House", "Onsen @ Moncham", "Veranda High Resort", "Cross Chiang Mai"],
-            travel: ["ดอยอินทนนท์", "วัดพระธาตุดอยสุเทพ", "ประตูท่าแพ", "ถนนคนเดินวัวลาย"]
+            cafes: ["The Baristro", "Chom Cafe", "Early Owls", "Graph One Nimman"],
+            hotels: ["Raya Heritage", "The Inside House", "Onsen @ Moncham"],
+            travel: ["ดอยอินทนนท์", "วัดพระธาตุดอยสุเทพ", "ประตูท่าแพ"]
         },
         "กรุงเทพมหานคร": {
-            cafes: ["Factory Coffee", "Nana Coffee Roasters", "After You", "Rolling Roasters", "Paga Microroastery"],
-            hotels: ["The Standard Bangkok", "Mandarin Oriental", "Siam Kempinski", "Capella Bangkok"],
-            travel: ["วัดพระแก้ว", "เยาวราช", "ตลาดน้อย", "ไอคอนสยาม"]
+            cafes: ["Factory Coffee", "Nana Coffee Roasters", "After You"],
+            hotels: ["The Standard Bangkok", "Mandarin Oriental"],
+            travel: ["วัดพระแก้ว", "เยาวราช", "ตลาดน้อย"]
         },
         "ภูเก็ต": {
-            cafes: ["Ma Doo Bua", "Three Monkeys", "Torry's Ice Cream", "Aungku Phuket", "Phuketique"],
-            hotels: ["Sri Panwa", "Keemala", "The Slate Phuket", "InterContinental Phuket"],
-            travel: ["แหลมพรหมเทพ", "หาดป่าตอง", "ย่านเมืองเก่าภูเก็ต", "วัดฉลอง"]
+            cafes: ["Ma Doo Bua", "Three Monkeys", "Phuketique"],
+            hotels: ["Sri Panwa", "Keemala", "The Slate"],
+            travel: ["แหลมพรหมเทพ", "หาดป่าตอง", "ย่านเมืองเก่า"]
         },
         "ชลบุรี": {
-            cafes: ["Red Temp Coffee", "Way Coffee House", "Cave Beach Club", "Papa Beach Pattaya"],
-            hotels: ["Mason Pattaya", "Hilton Pattaya", "Grande Centre Point Space"],
-            travel: ["เกาะล้าน", "สวนนงนุช", "ปราสาทสัจธรรม", "เขาสามมุข"]
+            cafes: ["Red Temp Coffee", "Way Coffee House", "Cave Beach Club"],
+            hotels: ["Mason Pattaya", "Hilton Pattaya"],
+            travel: ["เกาะล้าน", "สวนนงนุช", "ปราสาทสัจธรรม"]
         }
     };
 
@@ -82,9 +85,9 @@
             card.className = 'cat-card';
             
             card.innerHTML = `
-                <div class="cat-header">📍 ${province}</div>
+                <div class="cat-header">📍 ${province} <span style="font-size:12px; font-weight:normal; opacity:0.8;">Thailand</span></div>
                 <div class="sub-cat">
-                    <div class="sub-title">☕ คาเฟ่ <span>Hot</span></div>
+                    <div class="sub-title">☕ คาเฟ่ยอดฮิต <span>Hot</span></div>
                     <div class="scroll-box">
                         <ul class="item-list">
                             ${data.cafes.map(name => `<li>${name} <span class="rating">⭐ 4.8</span></li>`).join('')}
@@ -92,7 +95,7 @@
                     </div>
                 </div>
                 <div class="sub-cat">
-                    <div class="sub-title">🏨 โรงแรม <span>Lux</span></div>
+                    <div class="sub-title">🏨 โรงแรมแนะนำ <span>Lux</span></div>
                     <div class="scroll-box">
                         <ul class="item-list">
                             ${data.hotels.map(name => `<li>${name} <span class="rating">⭐ 4.9</span></li>`).join('')}
@@ -100,7 +103,7 @@
                     </div>
                 </div>
                 <div class="sub-cat">
-                    <div class="sub-title">🗺️ ที่เที่ยว <span>Best</span></div>
+                    <div class="sub-title">🗺️ จุดเช็คอิน <span>Best</span></div>
                     <div class="scroll-box">
                         <ul class="item-list">
                             ${data.travel.map(name => `<li>${name} <span class="rating">⭐ 4.7</span></li>`).join('')}
