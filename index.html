@@ -7,62 +7,79 @@
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --orange: #ff9800; --dark: #0f0f0f; --card: #1a1a1a; --white: #ffffff; --glass: rgba(255,255,255,0.05); }
-        body { font-family: 'Kanit', sans-serif; margin: 0; background: var(--dark); color: var(--white); scroll-behavior: smooth; }
+        :root { 
+            --blue-main: #1338BE; 
+            --orange: #ff9800; 
+            --bg-light: #ffffff; 
+            --text-dark: #333333;
+            --card-border: #eeeeee;
+        }
+        body { font-family: 'Kanit', sans-serif; margin: 0; background: var(--bg-light); color: var(--text-dark); scroll-behavior: smooth; }
         
         /* Navbar */
-        nav { display: flex; justify-content: space-between; padding: 15px 8%; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); position: sticky; top:0; z-index: 1000; border-bottom: 2px solid var(--orange); align-items: center; }
-        .logo { font-size: 26px; font-weight: bold; color: #fff; text-decoration: none; }
+        nav { 
+            display: flex; justify-content: space-between; padding: 15px 8%; 
+            background: #ffffff; position: sticky; top:0; z-index: 1000; 
+            border-bottom: 3px solid var(--blue-main); 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            align-items: center; 
+        }
+        .logo { font-size: 26px; font-weight: bold; color: var(--blue-main); text-decoration: none; }
         .logo span { color: var(--orange); }
 
-        /* --- นำส่วน Hero Slideshow กลับมา --- */
+        /* Hero Section */
         .hero { 
-            height: 450px; background-size: cover; background-position: center;
+            height: 400px; background-size: cover; background-position: center;
             display: flex; flex-direction: column; justify-content: center; align-items: center; 
             text-align: center; transition: background-image 1.2s ease-in-out; position: relative;
         }
-        .hero::before { content: ""; position: absolute; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.6); z-index: 1; }
-        .hero-content { position: relative; z-index: 2; }
-        .hero h1 { font-size: 55px; margin: 0; text-shadow: 2px 2px 20px rgba(0,0,0,1); letter-spacing: 2px; }
+        .hero::before { content: ""; position: absolute; top:0; left:0; right:0; bottom:0; background: rgba(0,0,0,0.4); z-index: 1; }
+        .hero-content { position: relative; z-index: 2; color: white; }
+        .hero h1 { font-size: 50px; margin: 0; text-shadow: 2px 2px 15px rgba(0,0,0,0.5); }
 
         /* Layout */
         .container { padding: 40px 8%; display: grid; grid-template-columns: 2.8fr 1.2fr; gap: 30px; }
         
-        .region-nav { display: flex; gap: 12px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 10px; }
-        .region-btn { background: #262626; color: #fff; padding: 10px 25px; border-radius: 30px; border: 1px solid #333; cursor: pointer; white-space: nowrap; font-family: 'Kanit'; }
-        .region-btn.active { background: var(--orange); border-color: var(--orange); font-weight: bold; color: #000; }
+        .region-nav { display: flex; gap: 10px; margin-bottom: 25px; overflow-x: auto; padding-bottom: 10px; }
+        .region-btn { background: #f0f0f0; color: #555; padding: 10px 22px; border-radius: 30px; border: 1px solid #ddd; cursor: pointer; white-space: nowrap; font-family: 'Kanit'; }
+        .region-btn.active { background: var(--blue-main); color: #fff; border-color: var(--blue-main); font-weight: 600; }
 
-        .province-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(125px, 1fr)); gap: 12px; margin-bottom: 35px; }
-        .prov-card { background: var(--card); padding: 15px; text-align: center; border-radius: 12px; border: 1px solid #333; cursor: pointer; transition: 0.2s; font-size: 14px; }
-        .prov-card.selected { border-color: var(--orange); background: rgba(255,152,0,0.1); }
+        .province-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-bottom: 35px; }
+        .prov-card { background: #fff; padding: 15px; text-align: center; border-radius: 12px; border: 1px solid var(--card-border); cursor: pointer; transition: 0.2s; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .prov-card:hover { border-color: var(--blue-main); }
+        .prov-card.selected { border-color: var(--blue-main); background: rgba(19, 56, 190, 0.05); color: var(--blue-main); font-weight: bold; }
 
-        .place-section { background: var(--glass); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); padding: 22px; margin-bottom: 20px; }
-        .section-header { color: var(--orange); font-size: 19px; font-weight: 600; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+        .place-section { background: #fff; border-radius: 20px; border: 1px solid var(--card-border); padding: 22px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .section-header { color: var(--blue-main); font-size: 19px; font-weight: 600; margin-bottom: 15px; border-bottom: 2px solid var(--blue-main); padding-bottom: 8px; }
         
         .item-list { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .item-list li { background: rgba(255,255,255,0.03); padding: 12px 18px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+        .item-list li { background: #f9f9f9; padding: 12px 18px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; border: 1px solid #eee; }
         
         .action-btns { display: flex; gap: 8px; }
-        .btn-add { background: var(--orange); border: none; color: white; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-family: 'Kanit'; font-size: 12px; }
+        .btn-add { background: var(--blue-main); border: none; color: white; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-family: 'Kanit'; font-size: 12px; }
         .btn-loc { background: #4285F4; border: none; color: white; padding: 6px 12px; border-radius: 8px; cursor: pointer; text-decoration: none; font-size: 11px; display: flex; align-items: center; gap: 4px; }
 
         /* Planner Sidebar */
-        .planner-card { background: var(--card); padding: 22px; border-radius: 22px; border: 1px solid #333; position: sticky; top: 110px; }
+        .planner-card { background: #fff; padding: 22px; border-radius: 22px; border: 1px solid var(--card-border); position: sticky; top: 110px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
         .cal-header { display: flex; gap: 8px; margin-bottom: 12px; }
-        .cal-select { background: #222; color: white; border: 1px solid #444; padding: 6px; border-radius: 8px; font-family: 'Kanit'; flex: 1; }
+        .cal-select { background: #fff; color: #333; border: 1px solid #ddd; padding: 6px; border-radius: 8px; font-family: 'Kanit'; flex: 1; }
         
         .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin: 15px 0; }
-        .cal-day { aspect-ratio: 1; border: 1px solid #444; display: flex; align-items: center; justify-content: center; font-size: 11px; border-radius: 6px; cursor: pointer; }
-        .cal-day.active { background: var(--orange); color: #000; font-weight: bold; }
+        .cal-day { aspect-ratio: 1; border: 1px solid #eee; display: flex; align-items: center; justify-content: center; font-size: 11px; border-radius: 6px; cursor: pointer; background: #fff; }
+        .cal-day.active { background: var(--blue-main); color: #fff; font-weight: bold; border-color: var(--blue-main); }
 
-        .plan-item { background:#222; padding:10px; border-radius:10px; margin-bottom:5px; font-size:13px; display:flex; justify-content:space-between; align-items: center; }
+        .plan-item { background:#f3f4f6; padding:10px; border-radius:10px; margin-bottom:5px; font-size:13px; display:flex; justify-content:space-between; align-items: center; color: #333; }
+        .plan-item span:last-child { color: #ff4444; font-weight: bold; }
 
         @media (max-width: 1000px) { .container { grid-template-columns: 1fr; } .item-list { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
-<nav><a href="#" class="logo">ROAD<span>TRAVEL</span></a></nav>
+<nav>
+    <a href="#" class="logo">ROAD<span>TRAVEL</span></a>
+    <a href="category.html" style="text-decoration:none; color:var(--blue-main); font-size:14px; font-weight:bold;">ดูหมวดหมู่ทั้งหมด →</a>
+</nav>
 
 <header class="hero" id="hero">
     <div class="hero-content">
@@ -80,21 +97,22 @@
 
     <aside>
         <div class="planner-card">
+            <h3 style="margin-top:0; color:var(--blue-main); font-size:18px;">🗓️ แพลนเนอร์ของคุณ</h3>
             <div class="cal-header">
                 <select id="monthSelect" class="cal-select" onchange="renderCalendar()"></select>
                 <select id="yearSelect" class="cal-select" onchange="renderCalendar()">
                     <option value="2026">2569</option>
                 </select>
             </div>
-            <p style="font-size: 12px; color: #aaa; margin:0;">เลือกวันที่: <span id="dayLabel" style="color:var(--orange); font-weight:bold;">1</span></p>
+            <p style="font-size: 12px; color: #666; margin:0;">เลือกวันที่: <span id="dayLabel" style="color:var(--blue-main); font-weight:bold;">1</span></p>
             <div class="cal-grid" id="calendar"></div>
-            <div id="planContent"><p style="text-align:center; color:#666; font-size:11px;">ยังไม่มีสถานที่ในแผน</p></div>
+            <div id="planContent"></div>
         </div>
     </aside>
 </div>
 
 <script>
-    // 1. ระบบ Slideshow รูปภาพ
+    // 1. ระบบ Slideshow
     const heroImgs = [
         'https://images.unsplash.com/photo-1528181304800-2f5405767d8f?w=1200',
         'https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=1200',
@@ -107,7 +125,7 @@
     }, 4000);
     document.getElementById('hero').style.backgroundImage = `url('${heroImgs[0]}')`;
 
-    // 2. ข้อมูลจังหวัด
+    // ข้อมูลจังหวัด
     const regions = {
         "ภาคกลาง": ["กรุงเทพมหานคร", "นนทบุรี", "ปทุมธานี", "พระนครศรีอยุธยา", "อ่างทอง", "ลพบุรี", "ชัยนาท", "สิงห์บุรี", "สระบุรี", "นครนายก", "นครปฐม", "สมุทรปราการ", "สมุทรสาคร", "สมุทรสงคราม", "สุพรรณบุรี"],
         "ภาคเหนือ": ["เชียงใหม่", "เชียงราย", "น่าน", "พะเยา", "แพร่", "แม่ฮ่องสอน", "ลำปาง", "ลำพูน", "อุตรดิตถ์", "ตาก", "สุโขทัย", "พิษณุโลก", "พิจิตร", "กำแพงเพชร", "นครสวรรค์", "อุทัยธานี", "เพชรบูรณ์"],
@@ -125,7 +143,7 @@
     function init() {
         const mSelect = document.getElementById('monthSelect');
         monthNames.forEach((m, i) => mSelect.innerHTML += `<option value="${i}">${m}</option>`);
-        mSelect.value = 0; // เริ่มที่มกราคม
+        mSelect.value = 0;
 
         const nav = document.getElementById('regionNav');
         Object.keys(regions).forEach(r => {
@@ -143,7 +161,6 @@
         renderCalendar();
     }
 
-    // 3. ปฏิทินแบบ Dynamic (มกราคมมี 31 วัน)
     function renderCalendar() {
         const cal = document.getElementById('calendar');
         cal.innerHTML = '';
@@ -158,7 +175,7 @@
             d.onclick = () => {
                 activeDay = i;
                 document.getElementById('dayLabel').innerText = i;
-                renderCalendar(); // อัปเดตสีปุ่ม
+                renderCalendar();
                 updatePlanUI();
             };
             cal.appendChild(d);
@@ -183,18 +200,17 @@
         renderPlaces(currentProv);
     }
 
-    // 4. แสดงสถานที่พร้อมปุ่ม "ดูที่ตั้ง"
     function renderPlaces(prov) {
         const display = document.getElementById('placeDisplay');
         const mockData = {
-            cafes: ["Coffee Roaster", "Garden Cafe", "Hidden Gem", "Sky Bar"],
-            hotels: ["Grand Resort", "Boutique Stay", "River Front"],
-            travel: ["วัดเก่าแก่ประจำจังหวัด", "อุทยานแห่งชาติ", "จุดชมวิวสูงสุด"]
+            cafes: ["Cafe de Moonlight", "Blue Whale Cafe", "Afternoon Tea Garden", "Riverside Coffee"],
+            hotels: ["Azure Luxury Hotel", "The White House Resort", "City Center Suites"],
+            travel: ["พระบรมมหาราชวัง", "พิพิธภัณฑ์สถานแห่งชาติ", "ตลาดนัดจตุจักร"]
         };
 
         const createSection = (title, items) => `
             <div class="place-section">
-                <div class="section-header">${title} ใน ${prov}</div>
+                <div class="section-header">${title}</div>
                 <ul class="item-list">
                     ${items.map(name => {
                         const mapUrl = `https://www.google.com/maps/search/${encodeURIComponent(name + ' ' + prov)}`;
@@ -202,18 +218,16 @@
                         <li>
                             <span>${name}</span>
                             <div class="action-btns">
-                                <a href="${mapUrl}" target="_blank" class="btn-loc">
-                                    <i class="fa-solid fa-location-dot"></i> ดูที่ตั้ง
-                                </a>
-                                <button class="btn-add" onclick="addPlan('${name}')">+ แพลน</button>
+                                <a href="${mapUrl}" target="_blank" class="btn-loc"><i class="fa-solid fa-location-dot"></i> ทางไป</a>
+                                <button class="btn-add" onclick="addPlan('${name}')">+ เพิ่ม</button>
                             </div>
                         </li>`;
                     }).join('')}
                 </ul>
             </div>`;
 
-        display.innerHTML = createSection("☕ คาเฟ่ & ร้านอาหาร", mockData.cafes) + 
-                           createSection("🏨 โรงแรม & ที่พัก", mockData.hotels) + 
+        display.innerHTML = createSection("☕ คาเฟ่ยอดฮิต", mockData.cafes) + 
+                           createSection("🏨 ที่พักแนะนำ", mockData.hotels) + 
                            createSection("🗺️ สถานที่ท่องเที่ยว", mockData.travel);
     }
 
@@ -233,11 +247,11 @@
         const key = `${month}-${activeDay}`;
         const items = planStore[key] || [];
         
-        content.innerHTML = items.length === 0 ? '<p style="text-align:center; color:#666; font-size:11px;">ยังไม่มีสถานที่ในแผน</p>' : 
+        content.innerHTML = items.length === 0 ? '<p style="text-align:center; color:#999; font-size:12px; margin-top:20px;">ยังไม่มีแผนในวันนี้</p>' : 
             items.map(it => `
                 <div class="plan-item">
                     <span>📍 ${it}</span>
-                    <span style="color:red; cursor:pointer;" onclick="removePlan('${key}', '${it}')">✕</span>
+                    <span style="cursor:pointer;" onclick="removePlan('${key}', '${it}')">✕</span>
                 </div>
             `).join('');
     }
