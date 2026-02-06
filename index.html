@@ -264,4 +264,301 @@
     window.onload = init;
 </script>
 </body>
+<<<<<<< Updated upstream
 </html>
+=======
+</html><!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thai Diary - แพลนเที่ยว 77 จังหวัดทั่วไทย</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --blue: #0056b3; --orange: #ff9800; --bg: #f8f9fa; --white: #ffffff; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Kanit', sans-serif; margin: 0; background: var(--bg); color: #333; scroll-behavior: smooth; }
+
+        /* Navigation */
+        nav { display: flex; justify-content: space-between; padding: 15px 8%; background: var(--white); align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 24px; font-weight: bold; color: var(--blue); cursor: pointer; }
+        .logo span { color: var(--orange); }
+        nav ul { list-style: none; display: flex; gap: 25px; margin: 0; padding: 0; }
+        nav ul li { font-size: 15px; cursor: pointer; transition: 0.3s; }
+        nav ul li:hover { color: var(--orange); }
+        .btn-login { background: var(--blue); color: white; border: none; padding: 8px 25px; border-radius: 25px; cursor: pointer; font-family: 'Kanit'; }
+
+        /* Hero & Search */
+        .hero { 
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1528181304800-2f5405767d8f?w=1400');
+            height: 380px; background-size: cover; background-position: center;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center;
+        }
+        .hero h1 { font-size: 36px; margin-bottom: 10px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .search-box { background: white; padding: 8px; border-radius: 40px; display: flex; width: 90%; max-width: 550px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
+        .search-box input { border: none; flex: 1; padding: 12px 25px; border-radius: 40px; outline: none; font-family: 'Kanit'; font-size: 16px; }
+        .search-box button { background: var(--orange); color: white; border: none; padding: 10px 30px; border-radius: 40px; cursor: pointer; font-family: 'Kanit'; font-weight: 600; }
+
+        /* Main Content */
+        .container { padding: 40px 8%; max-width: 1400px; margin: auto; }
+        
+        /* Regions Navigation */
+        .region-nav { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 20px; scrollbar-width: none; }
+        .region-nav::-webkit-scrollbar { display: none; }
+        .region-btn { background: white; padding: 12px 25px; border-radius: 15px; border: 1px solid #eee; cursor: pointer; white-space: nowrap; transition: 0.3s; font-family: 'Kanit'; display: flex; align-items: center; gap: 8px; }
+        .region-btn.active { border-color: var(--orange); background: #fff9f0; color: var(--orange); font-weight: 600; box-shadow: 0 4px 10px rgba(255,152,0,0.1); }
+
+        .layout { display: grid; grid-template-columns: 2.8fr 1.2fr; gap: 30px; margin-top: 20px; }
+
+        /* Province Grid */
+        .province-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 40px; }
+        .province-card { background: white; padding: 15px; border-radius: 12px; text-align: center; border: 1px solid #eee; cursor: pointer; transition: 0.2s; font-size: 14px; }
+        .province-card:hover { border-color: var(--blue); transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); color: var(--blue); }
+        .province-card.active { background: var(--blue); color: white; border-color: var(--blue); }
+
+        /* Place Cards */
+        .place-section h3 { border-left: 5px solid var(--orange); padding-left: 15px; margin-bottom: 25px; }
+        .place-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .place-card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid #eee; transition: 0.3s; position: relative; }
+        .place-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .place-img { height: 180px; width: 100%; object-fit: cover; background: #ddd; }
+        .place-info { padding: 20px; }
+        .place-cat { font-size: 12px; font-weight: 600; color: var(--blue); text-transform: uppercase; margin-bottom: 5px; display: block; }
+        .place-name { font-size: 18px; margin: 0 0 10px 0; font-weight: 600; }
+        .place-meta { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #666; }
+        .rating { color: #f39c12; font-weight: bold; }
+        .btn-add { width: 100%; margin-top: 15px; background: #f0f7ff; color: var(--blue); border: 1px dashed var(--blue); padding: 10px; border-radius: 10px; cursor: pointer; font-family: 'Kanit'; transition: 0.2s; }
+        .btn-add:hover { background: var(--blue); color: white; border-style: solid; }
+
+        /* Planner Sidebar */
+        .planner-card { background: white; padding: 25px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: sticky; top: 100px; height: fit-content; }
+        .planner-card h4 { margin: 0 0 15px 0; display: flex; align-items: center; gap: 10px; }
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-top: 15px; }
+        .cal-day { aspect-ratio: 1; border: 1px solid #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 12px; border-radius: 8px; cursor: pointer; background: #fff; transition: 0.2s; }
+        .cal-day:hover { background: #fff4e5; border-color: var(--orange); }
+        .cal-day.active { background: var(--orange); color: white; border-color: var(--orange); font-weight: bold; }
+        
+        .trip-container { margin-top: 25px; border-top: 1px solid #eee; padding-top: 20px; }
+        .trip-day-label { font-size: 14px; font-weight: 600; color: #888; margin-bottom: 10px; display: block; }
+        .trip-list { display: flex; flex-direction: column; gap: 10px; }
+        .trip-item { background: #f8faff; padding: 12px; border-radius: 12px; border-left: 4px solid var(--blue); font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+        .trip-item button { background: none; border: none; color: #ff4d4d; cursor: pointer; font-size: 16px; }
+        .empty-state { text-align: center; padding: 20px; color: #ccc; font-size: 13px; }
+
+        @media (max-width: 992px) {
+            .layout { grid-template-columns: 1fr; }
+            .planner-card { position: relative; top: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo" onclick="location.reload()">THAI<span>DIARY</span></div>
+    <ul>
+        <li>หน้าแรก</li>
+        <li>จัดทริป</li>
+        <li>รีวิว</li>
+        <li>บทความ</li>
+    </ul>
+    <button class="btn-login">เข้าสู่ระบบ</button>
+</nav>
+
+<header class="hero">
+    <h1>ค้นพบเสน่ห์ 77 จังหวัดทั่วไทย</h1>
+    <p>รวบรวมสถานที่ท่องเที่ยว คาเฟ่ โรงแรม และอุทยาน ครบจบในที่เดียว</p>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="ค้นหาจังหวัด หรือ สถานที่ท่องเที่ยว...">
+        <button onclick="search()">ค้นหา</button>
+    </div>
+</header>
+
+<div class="container">
+    <h3>เลือกภูมิภาค</h3>
+    <div class="region-nav" id="regionNav">
+        <button class="region-btn active" onclick="selectRegion(this, 'ภาคเหนือ')">⛰️ ภาคเหนือ</button>
+        <button class="region-btn" onclick="selectRegion(this, 'ภาคกลาง')">🏙️ ภาคกลาง</button>
+        <button class="region-btn" onclick="selectRegion(this, 'ภาคอีสาน')">🌾 ภาคอีสาน</button>
+        <button class="region-btn" onclick="selectRegion(this, 'ภาคใต้')">🏝️ ภาคใต้</button>
+        <button class="region-btn" onclick="selectRegion(this, 'ภาคตะวันออก')">☀️ ภาคตะวันออก</button>
+        <button class="region-btn" onclick="selectRegion(this, 'ภาคตะวันตก')">🌄 ภาคตะวันตก</button>
+    </div>
+
+    <div class="layout">
+        <div class="left-content">
+            <div class="province-grid" id="provinceGrid">
+                </div>
+
+            <div class="place-section" id="placeSection" style="display:none;">
+                <h3 id="placeTitle">สถานที่แนะนำ</h3>
+                <div class="place-grid" id="placeGrid">
+                    </div>
+            </div>
+        </div>
+
+        <aside class="planner-card">
+            <h4>📅 วางแผนทริปรายวัน</h4>
+            <div style="font-size: 13px; color: #666; margin-bottom: 5px;">กุมภาพันธ์ 2569</div>
+            <div class="cal-grid" id="calendar">
+                </div>
+
+            <div class="trip-container">
+                <span class="trip-day-label">รายการแผนการเที่ยว วันที่ <span id="selectedDateDisplay">1</span>:</span>
+                <div id="tripList" class="trip-list">
+                    <div class="empty-state">ยังไม่มีกิจกรรมในวันนี้<br>กด "เพิ่มในแผน" จากสถานที่ท่องเที่ยว</div>
+                </div>
+            </div>
+            <button style="width:100%; margin-top:20px; background:var(--blue); color:white; border:none; padding:12px; border-radius:15px; font-family:'Kanit'; cursor:pointer;">ดาวน์โหลดแผนการเที่ยว (PDF)</button>
+        </aside>
+    </div>
+</div>
+
+<script>
+    // 1. Database: 77 Provinces by Region
+    const data = {
+        "ภาคเหนือ": ["เชียงใหม่", "เชียงราย", "น่าน", "พะเยา", "แพร่", "แม่ฮ่องสอน", "ลำปาง", "ลำพูน", "อุตรดิตถ์"],
+        "ภาคกลาง": ["กรุงเทพมหานคร", "กำแพงเพชร", "ชัยนาท", "นครนายก", "นครปฐม", "นครสวรรค์", "นนทบุรี", "ปทุมธานี", "พระนครศรีอยุธยา", "พิจิตร", "พิษณุโลก", "เพชรบูรณ์", "ลพบุรี", "สมุทรปราการ", "สมุทรสงคราม", "สมุทรสาคร", "สระบุรี", "สิงห์บุรี", "สุโขทัย", "สุพรรณบุรี", "อ่างทอง", "อุทัยธานี"],
+        "ภาคอีสาน": ["กาฬสินธุ์", "ขอนแก่น", "ชัยภูมิ", "นครพนม", "นครราชสีมา", "บึงกาฬ", "บุรีรัมย์", "มหาสารคาม", "มุกดาหาร", "ยโสธร", "ร้อยเอ็ด", "เลย", "สกลนคร", "สุรินทร์", "ศรีสะเกษ", "หนองคาย", "หนองบัวลำภู", "อุดรธานี", "อุบลราชธานี", "อำนาจเจริญ"],
+        "ภาคใต้": ["กระบี่", "ชุมพร", "ตรัง", "นครศรีธรรมราช", "นราธิวาส", "ปัตตานี", "พังงา", "พัทลุง", "ภูเก็ต", "ระนอง", "สตูล", "สงขลา", "สุราษฎร์ธานี", "ยะลา"],
+        "ภาคตะวันออก": ["จันทบุรี", "ฉะเชิงเทรา", "ชลบุรี", "ตราด", "ปราจีนบุรี", "ระยอง", "สระแก้ว"],
+        "ภาคตะวันตก": ["กาญจนบุรี", "ตาก", "ประจวบคีรีขันธ์", "เพชรบุรี", "ราชบุรี"]
+    };
+
+    // 2. Mock Landmark Data for search/display
+    const mockLandmarks = {
+        "โรงแรม": ["Resort & Spa", "Boutique Hotel", "Riverside Hotel"],
+        "คาเฟ่": ["Garden Cafe", "Minimal Coffee", "Slow Bar"],
+        "อุทยาน": ["National Park", "Waterfall Park", "Mountain View"],
+        "ร้านอาหาร": ["Local Seafood", "Authentic Thai", "Fine Dining"]
+    };
+
+    let currentDay = 1;
+    let itinerary = {}; // Stores items by day: { 1: ['Place A', 'Place B'], 2: [] }
+
+    // Initialize
+    window.onload = () => {
+        selectRegion(document.querySelector('.region-btn'), 'ภาคเหนือ');
+        initCalendar();
+    };
+
+    function initCalendar() {
+        const cal = document.getElementById('calendar');
+        cal.innerHTML = '';
+        for (let i = 1; i <= 28; i++) {
+            const day = document.createElement('div');
+            day.className = 'cal-day' + (i === 1 ? ' active' : '');
+            day.innerText = i;
+            day.onclick = () => {
+                document.querySelectorAll('.cal-day').forEach(d => d.classList.remove('active'));
+                day.classList.add('active');
+                currentDay = i;
+                document.getElementById('selectedDateDisplay').innerText = i;
+                renderTripList();
+            };
+            cal.appendChild(day);
+        }
+    }
+
+    function selectRegion(btn, region) {
+        document.querySelectorAll('.region-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const grid = document.getElementById('provinceGrid');
+        grid.innerHTML = '';
+        data[region].forEach(prov => {
+            const card = document.createElement('div');
+            card.className = 'province-card';
+            card.innerText = prov;
+            card.onclick = () => selectProvince(card, prov);
+            grid.appendChild(card);
+        });
+        document.getElementById('placeSection').style.display = 'none';
+    }
+
+    function selectProvince(card, prov) {
+        document.querySelectorAll('.province-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        
+        document.getElementById('placeSection').style.display = 'block';
+        document.getElementById('placeTitle').innerText = `สถานที่แนะนำใน ${prov}`;
+        
+        const grid = document.getElementById('placeGrid');
+        grid.innerHTML = '';
+
+        // Generate mock places for demo
+        const categories = ["โรงแรม", "คาเฟ่", "อุทยาน", "ร้านอาหาร"];
+        categories.forEach(cat => {
+            const name = mockLandmarks[cat][Math.floor(Math.random() * 3)];
+            grid.innerHTML += `
+                <div class="place-card">
+                    <img class="place-img" src="https://picsum.photos/seed/${prov}${cat}/400/250" alt="${name}">
+                    <div class="place-info">
+                        <span class="place-cat">${cat}</span>
+                        <h4 class="place-name">${name} ${prov}</h4>
+                        <div class="place-meta">
+                            <span class="rating">⭐ 4.${Math.floor(Math.random() * 9) + 1} (รีวิว)</span>
+                            <span>📍 ${prov}</span>
+                        </div>
+                        <button class="btn-add" onclick="addToPlan('${name} ${prov}')">+ เพิ่มในแผนวันที่ ${currentDay}</button>
+                    </div>
+                </div>
+            `;
+        });
+        window.scrollTo({ top: document.getElementById('placeSection').offsetTop - 100, behavior: 'smooth' });
+    }
+
+    function addToPlan(placeName) {
+        if (!itinerary[currentDay]) itinerary[currentDay] = [];
+        itinerary[currentDay].push(placeName);
+        renderTripList();
+        
+        // Visual feedback
+        const btn = event.target;
+        const originalText = btn.innerText;
+        btn.innerText = "เพิ่มแล้ว! ✓";
+        btn.style.background = "#4caf50";
+        btn.style.color = "white";
+        setTimeout(() => {
+            btn.innerText = originalText;
+            btn.style.background = "";
+            btn.style.color = "";
+        }, 1000);
+    }
+
+    function renderTripList() {
+        const list = document.getElementById('tripList');
+        list.innerHTML = '';
+        const items = itinerary[currentDay] || [];
+        
+        if (items.length === 0) {
+            list.innerHTML = '<div class="empty-state">ยังไม่มีกิจกรรมในวันนี้<br>กด "เพิ่มในแผน" จากสถานที่ท่องเที่ยว</div>';
+            return;
+        }
+
+        items.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'trip-item';
+            div.innerHTML = `
+                <span>📍 ${item}</span>
+                <button onclick="removeItem(${index})">&times;</button>
+            `;
+            list.appendChild(div);
+        });
+    }
+
+    function removeItem(index) {
+        itinerary[currentDay].splice(index, 1);
+        renderTripList();
+    }
+
+    function search() {
+        const query = document.getElementById('searchInput').value;
+        if (query) {
+            alert('ระบบกำลังค้นหา: ' + query + '\n(ในเวอร์ชันโปรแกรมจริง จะดึงข้อมูลจาก Database มาแสดง)');
+        }
+    }
+</script>
+
+</body>
+</html>
+>>>>>>> Stashed changes
